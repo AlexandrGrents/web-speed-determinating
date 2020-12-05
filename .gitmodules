@@ -1,0 +1,3 @@
+[submodule "determining-vehicle-speed"]
+	path = determining-vehicle-speed
+	url = https://github.com/AlexandrGrents/determining-vehicle-speed.git
