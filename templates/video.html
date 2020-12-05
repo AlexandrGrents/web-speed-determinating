@@ -1,0 +1,21 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+{{super()}}
+{% endblock %}
+
+{% block content %}
+<main class="container">
+	<div class="row">
+		<div class="col-12"><h4>Видео</h4></div>
+		<div class="col-12">{{wtf.quick_form(video_form, button_map = {'submit':'success'})}}</div>
+	</div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="/static/script.js"></script>
+{{super()}}
+{%endblock%}
