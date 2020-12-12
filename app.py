@@ -1,50 +1,51 @@
 import os
 
-from flask import Flask, render_template, jsonify
-from flask_socketio import SocketIO
-from flask_bs4 import Bootstrap
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, jsonify, request, url_for
 
-from determining_vehicle_speed.detect import detect_on_video
-from determining_vehicle_speed.sort.sort import Sort
-from detector import create_detector
-from forms import VideoForm
+from determining_vehicle_speed.sort.sort import Sort, KalmanBoxTracker
+#from detector import create_detector
+
 
 app = Flask(__name__)
-sio = SocketIO(app, async_mode = 'eventlet')
-
-bootstrap = Bootstrap(app)
-detector = create_detector()
-
 app.config['SECRET_KEY'] = '1234'
 
+#detector = create_detector()
 
-@app.route('/')
-def index():
-	return 'hello world'
+last_id = 0
+videos = {'kompol-11s': os.path.join(os.getcwd(), 'static', 'input.mp4')}
+detect_processes = {1:{'status': 'run', 'frameCount':220, 'currentFrame':100}, 2:{'status': 'end', 'webmFileName':'20201213003800.webm', 'mp4FileName': '20201213003800.mp4', 'jsonFileName': '20201213003800.json'}}
 
-@app.route('/video', methods = ['GET', 'POST'])
-def video():
-	video_form = VideoForm()
-	if video_form.validate_on_submit():
-		f = video_form.input_file.data
+if os.environ.get('CROSS_ORIGIN'):
+	from flask_cors import CORS
+	CORS(app)
 
-		filename = secure_filename(f.filename)
-		if not filename:
-			return "bad request", 400
-		tracker = Sort(max_age = 50)
 
-		input_file_path = os.path.join(os.getcwd(), 'files', filename)
-		output_file_path = os.path.join(os.getcwd(), 'files', 'output.mp4')
-		coef_file_path = os.path.join(os.getcwd(), 'determining_vehicle_speed', 'coef.json')
-		mask_file_path = os.path.join(os.getcwd(), 'determining_vehicle_speed', 'mask.png')
+@app.route('/detect', methods = ['POST'])
+def video_detect():
+	video = request.form.get('video')
+	if video == 'custom':
+		video_file = request.files['video-file']
+		path_to_video = os.path.join(os.getcwd(), 'tmp', video_file.filename)
+		video_file.save(path_to_video)
+	else:
+		path_to_video = videos.get(video)
+	if path_to_video is None:
+		return '', 400
+	global last_id
+	last_id += 1
+	info_about_bbox = request.form.get('bbox')
+	detect_processes[last_id] = {'status': 'run'}
 
-		f.save(input_file_path)
-		detections = detect_on_video(input_file_path, output_file_path, detector, tracker, coef_file=coef_file_path, mask_file = mask_file_path, to_mp4 = True)
-		print(detections[1]['detections'][6])
-		print(type(detections[1]['detections'][6]['bbox']))
-		print(type(detections[1]['detections'][6]['bbox'][0]))
-		print(type(detections[1]['detections'][6]['speed']))
-		return jsonify(detections), 200
+	return jsonify({"id":last_id})
 
-	return render_template('video.html', video_form = video_form)
+
+@app.route('/result/<int:detect_id>')
+def check_result(detect_id):
+	result = detect_processes.get(detect_id)
+	if result is None:
+		return '', 404
+	return jsonify(result)
+
+
+if __name__=="__main__":
+	app.run()

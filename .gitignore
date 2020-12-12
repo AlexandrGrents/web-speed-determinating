@@ -1,3 +1,9 @@
+.idea
+.idea/*
+*.mp4
+*.webm
+static/*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
