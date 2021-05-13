@@ -4,6 +4,7 @@ from threading import Thread
 
 from flask import Flask, render_template, jsonify, request, url_for, send_from_directory
 from flask_migrate import Migrate
+from flask_webpack import Webpack
 
 from .determining_vehicle_speed.sort.sort import Sort, KalmanBoxTracker
 from .detector import create_detector, async_detect_on_video
@@ -16,6 +17,8 @@ def get_time_code():
 
 
 app = Flask(__name__)
+webpack = Webpack(app)
+
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or '1234'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(os.getcwd(), 'app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -63,6 +66,9 @@ def video_detect():
 
 	return jsonify(process)
 
+@app.route('/')
+def index():
+	return render_template('interface.html')
 
 @app.route('/result/<int:detect_id>')
 def check_result(detect_id):

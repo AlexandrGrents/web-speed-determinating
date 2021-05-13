@@ -95,3 +95,7 @@ def async_detect_on_video(time_code, video_path, detector, tracker, app):
 	set_process(time_code, status='end', app=app, mp4=str(time_code) + '.mp4', webm=str(time_code) + '.webm', json=str(time_code) + '.json')
 
 	return detections_on_video
+
+
+if __name__ == "__main__":
+	detector = create_detector()
