@@ -4,7 +4,7 @@ from threading import Thread
 
 from flask import Flask, render_template, jsonify, request, url_for, send_from_directory
 from flask_migrate import Migrate
-from flask_webpack import Webpack
+#from flask_webpack import Webpack
 
 from .determining_vehicle_speed.sort.sort import Sort, KalmanBoxTracker
 from .detector import create_detector, async_detect_on_video
@@ -17,7 +17,7 @@ def get_time_code():
 
 
 app = Flask(__name__)
-webpack = Webpack(app)
+#webpack = Webpack(app)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or '1234'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(os.getcwd(), 'app.db')
@@ -75,7 +75,6 @@ def check_result(detect_id):
 	result = get_process(detect_id)
 	if result is None:
 		return '', 404
-	print(result)
 	return jsonify(result)
 
 @app.route('/file/<filename>')

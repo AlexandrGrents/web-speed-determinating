@@ -30,6 +30,7 @@ class StartedProcess(db.Model):
     def to_dict(self):
         return dict(id = self.id, priority = self.priority)
 
+
 def get_process(process_id):
     process = EndedProcess.query.get(process_id)
     status = 'end'
@@ -40,7 +41,8 @@ def get_process(process_id):
         status = 'start'
         process = StartedProcess.query.get(process_id)
     process_dict = process.to_dict()
-    process_dict.update({'status':status})
+    process_dict.update({'status': status})
+
     return process_dict
 
 def set_process(process_id, status, app, **kwargs):
