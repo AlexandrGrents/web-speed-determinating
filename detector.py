@@ -8,10 +8,10 @@ from detectron2.config import get_cfg
 from detectron2.data import MetadataCatalog
 from detectron2.data.datasets import register_coco_instances
 
-from .determining_vehicle_speed.detect import detect_on_frame, drow_on_frame
-from .determining_vehicle_speed.utils.masker import Masker
-from .determining_vehicle_speed.speedometer import Speedometer
-from .models import get_process, set_process
+from determining_vehicle_speed.detect import detect_on_frame, drow_on_frame
+from determining_vehicle_speed.utils.masker import Masker
+from determining_vehicle_speed.speedometer import Speedometer
+from models import get_process, set_process
 
 
 CLASS_NAMES = ['car', 'minibus', 'trolleybus', 'tram', 'truck', 'bus', 'middle_bus', 'ambulance', 'fire_truck', 'middle_truck', 'tractor', 'uncategorized', 'van', 'person']

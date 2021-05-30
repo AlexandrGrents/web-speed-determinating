@@ -4,11 +4,16 @@ from threading import Thread
 
 from flask import Flask, render_template, jsonify, request, url_for, send_from_directory
 from flask_migrate import Migrate
+
+
 #from flask_webpack import Webpack
 
-from .determining_vehicle_speed.sort.sort import Sort, KalmanBoxTracker
-from .detector import create_detector, async_detect_on_video
-from .models import db, get_process, set_process
+from determining_vehicle_speed.sort.sort import Sort, KalmanBoxTracker
+from detector import create_detector, async_detect_on_video
+from models import db, get_process, set_process
+import matplotlib 
+matplotlib.rcParams['backend'] = 'TkAgg' 
+matplotlib.use('TKAgg')
 
 
 def get_time_code():

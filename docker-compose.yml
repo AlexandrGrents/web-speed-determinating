@@ -1,0 +1,16 @@
+version: '3'
+services:
+  app:
+    build: .
+    volumes:
+      - .:/home/app
+    ports:
+      - '18010:5000'
+    command: gunicorn -b 0.0.0.0:5000 app:app
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
