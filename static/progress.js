@@ -1,15 +1,3 @@
-export async function updateProgressbar(){
-    $.ajax({
-        url: globalThis.progressLink,
-        success: function(data){
-            $("#detectionProgressbar").css("width", data.currentFrame/data.frameCount);
-            $("#detectionProgressbar").text(Math.round(data.currentFrame/data.frameCount, 2));
-        }
-    })
-
-    $("#detectionProgressbar")
-}
-
 export class ProgressManager {
     constructor (processId) {
         this._processId = processId
@@ -19,6 +7,7 @@ export class ProgressManager {
     }
 
     start () {
+        $("#detectionProccess").show();
         $.ajax({
             url: globalThis.progressLink + this._processId,
             type: "GET",
@@ -56,6 +45,7 @@ export class ProgressManager {
         this._progressHtml.hide();
         $("#result-video").attr('src', `./file/${data.webm}`)
         console.log('stop', data)
+        $("#detectionProccess").hide();
     }
 
     /**

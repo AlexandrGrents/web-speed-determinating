@@ -19,11 +19,6 @@ init();
 videoFile.change(setVideoFileUrl);
 maskFile.change(function(){showUploadImage(this, "#mask-view")});
 
-roadRegionSelect.change(function() {
-    if (this.value === "custom") $("#custom-road-region-files").show();
-    else $("#custom-road-region-files").hide();
-    });
-
 videoSelect.change(function() {
     if (this.value === "custom") {
         $("#video-form").show();

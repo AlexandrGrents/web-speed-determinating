@@ -14,25 +14,6 @@ export function getFormData() {
     }
     else body.set("video", video);
 
-    let roadRegion = $("#road-region-select").val();
-    if (roadRegion == "custom")
-    {
-        body.set("roadRegion", "custom");
-
-        let coefsFile = document.getElementById('coefs-file').files[0];
-        let maskFile = document.getElementById('mask-file').files[0];
-
-        if (coefsFile && maskFile) {
-            body.set("coefsFile", coefsFile, coefsFile.name);
-            body.set("maskFile", maskFile, maskFile.name);
-        }
-        else {
-            alert("Укажите файлы с маской и коэффициентами")
-            return false;
-        }
-    }
-    else body.set("roadRegion", roadRegion);
-
 
     let outputFormat = $('input[name="outputParameters"]:checked').val();
     body.set("outputFormat", outputFormat);

@@ -9,41 +9,33 @@
 <body style="min-height:100vh" class="d-flex flex-column">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
-  <a class="navbar-brand" href="#">Speed determinating</a>
+    <div class="container">
+        <a class="navbar-brand" href="#">Распознаватель скорости по видео</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://alexandrgrents.github.io/coefCreater/">Create coefficients</a>
-      </li>
-        <li class="nav-item">
         <a class="nav-link" href="https://github.com/AlexandrGrents/determining-vehicle-speed">Github</a>
       </li>
-
-
     </ul>
 
-      <button class="btn btn-info my-2 my-sm-0">Русский</button>
-
   </div>
+    </div>
+
 </nav>
 
 <div class="container bg-light flex-grow-1" >
-        <div class="row" style="background-color:#dedede"><div class="col-12"><h3>Send video for speed determinating</h3></div></div>
-
+        <div class="row" style="background-color:#dedede"><div class="col-12"><h3>Отправить видео на распознавание</h3></div></div>
         <form id="sendVideoForm" action="" class="row" style="background-color:#dedede">
 
                 <div class="col-8">
                     <b>Video</b>
                     <select class="form-control" id="video-select">
-                      <option value="custom">Custom video</option>
-                       <option value="kompol-11s">Демонстрационное видео: Ост. Поликлиника (11 с.)</option>
+                        <option value="kompol-11s">Демонстрационное видео: Ост. Поликлиника (11 с.)</option>
+                        <option value="custom">Другое видео</option>
                     </select>
                     <div class="form-group" id="video-form">
                         <label for="video-file">Video file</label>
@@ -56,69 +48,44 @@
                     </div>
                   </div>
 
-
                 <div class="form-group col-4">
-                    <b>Road region</b>
-                    <select class="form-control" id="road-region-select">
-                      <option value="kompol">Ост. Поликлиника</option>
-                        <option value="custom">Custom road region</option>
-                    </select>
-                    <div class="form-group" id="custom-road-region-files">
-                        <hr>
-                        <div class="form-group">
-                            <label for="coefs-file">Coefficients file</label>
-                            <input type="file" class="form-control-file" id="coefs-file">
-
-                          </div>
-                        <div class="form-group">
-                            <label for="mask-file">Road region mask file</label>
-                            <input type="file" class="form-control-file" id="mask-file" style="margin-bottom: 0.5em">
-                            <img id="mask-view" width="100%">
-                          </div>
-                    </div>
-                     <hr>
-                    <b>Output parameters</b>
+                    <b>Формат результата:</b>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="outputParameters" id="output-video" value="video" checked>
-                      <label class="form-check-label" for="output-video">Only video</label>
+                      <label class="form-check-label" for="output-video">Только видео (.webm и .mp4)</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="outputParameters" id="output-json" value="json">
-                      <label class="form-check-label" for="output-json">Only json-file</label>
+                      <label class="form-check-label" for="output-json">Только файл json</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="outputParameters" id="output-all" value="all">
-                      <label class="form-check-label" for="output-all">Video and json-file</label>
+                      <label class="form-check-label" for="output-all">Файл json и видео (.webm и .mp4)</label>
                     </div>
                     <hr>
-                     <b>Output data parameters</b>
+                     <b>Что требуется отобразить в результатах:</b>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="" id="bbox" checked>
-                      <label class="form-check-label" for="bbox">Show bboxes</label>
+                      <label class="form-check-label" for="bbox">Bounding-box</label>
                     </div>
 
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="" id="speed" checked>
-                      <label class="form-check-label" for="speed">Show speed</label>
+                      <label class="form-check-label" for="speed">Скорость</label>
                     </div>
 
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="" id="position">
-                      <label class="form-check-label" for="position">Show positions</label>
+                      <label class="form-check-label" for="position">Позиция</label>
                     </div>
 
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="" id="class">
-                      <label class="form-check-label" for="class">Show classes</label>
+                      <label class="form-check-label" for="class">Класс</label>
                     </div>
-
-
                     <hr>
-                <button type="submit" class="btn btn-success">Send form</button>
+                <button type="submit" class="btn btn-success">Отправить</button>
                 </div>
-            <div class="col-12">
-                <hr>
-            </div>
         </form>
 
         <section id="detectionProccess" class="row" style="background-color:#dedede">
@@ -133,10 +100,19 @@
     <p id="progress-text"></p>
 
     <section id="result" style="width: 100%">
-        <video id="result-video" style="width: 100%"></video>
+        <video id="result-video" controls style="width: 100%"></video>
     </section>
 
-
+    <section id="description">
+        <h3>Приложение для определения скорости передвижения автомобильного транспорта на видео с применением нейросетевых технологий</h3>
+        <b>Дипломный проект студента КЭ-403 Гренца А.В.</b>
+        <p>Приложение базируется на нейронной сети топологии Mask-R-CNN и её программной реализации Detectron2 (<a href="https://github.com/facebookresearch/detectron2">*</a>).
+            Также дополнительно используется самостоятельно улучшенная программная реализация трекера SORT (<a href="https://github.com/AlexandrGrents/sort">*</a>).
+            <br>По данной разработке были опубликованы следующие работы: <br>
+            <code>1. Grents A., Varkentin V., Goryaev N. Determining vehicle speed based on video using convolutional neural network //Transportation Research Procedia. – 2020. – Т. 50. – С. 192-200 (<a
+                    href="https://www.sciencedirect.com/science/article/pii/S2352146520307705?dgcid=rss_sd_all">*</a>).</code>
+        </p>
+    </section>
 
 </div>
 
