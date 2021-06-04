@@ -1,9 +1,13 @@
+import {ResultManager} from "./result";
+
 export class ProgressManager {
     constructor (processId) {
         this._processId = processId
 
         this._progressHtml = $("#detectionProgressbar");
         this._progressText = $("#progress-text");
+
+        this._resultManager = new ResultManager();
     }
 
     start () {
@@ -46,6 +50,8 @@ export class ProgressManager {
         $("#result-video").attr('src', `./file/${data.webm}`)
         console.log('stop', data)
         $("#detectionProccess").hide();
+
+        this._resultManager.init(data);
     }
 
     /**
