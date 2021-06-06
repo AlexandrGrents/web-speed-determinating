@@ -1,3 +1,4 @@
+import {ProgressManager} from "./progress.js";
 
 
 export function init () {
@@ -10,6 +11,10 @@ export function init () {
     globalThis.videoSelect = $("#video-select");
     globalThis.sendVideoForm = $("#sendVideoForm")
     globalThis.resultSection = $("#result");
+
+    globalThis.progressManager = new ProgressManager();
+
+    globalThis.cookieArray = document.cookie.split(';').map(elem => elem.split('='));
 }
 
 export function update () {

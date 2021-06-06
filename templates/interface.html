@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Speed determinating</title>
@@ -99,18 +99,36 @@
 
     <p id="progress-text"></p>
 
-    <section id="result" style="width: 100%">
-        <video id="result-video" controls style="width: 100%"></video>
+    <section id="result" style="width: 100%; background-color:#dedede" class="row" >
+        <video id="result-video" controls style="width: 100%" class="col-8"></video>
+        <div class="col-4">
+            <a href="" id="result-link-webm" style="margin-bottom: 10px" download>Скачать webm видеофайл</a>
+            <a href="" id="result-link-mp4" style="margin-bottom: 10px" download>Скачать mp4 видеофайл</a>
+            <a href="" id="result-link-json" style="margin-bottom: 10px" download>Скачать json файл</a>
+        </div>
     </section>
 
     <section id="description">
         <h3>Приложение для определения скорости передвижения автомобильного транспорта на видео с применением нейросетевых технологий</h3>
         <b>Дипломный проект студента КЭ-403 Гренца А.В.</b>
-        <p>Приложение базируется на нейронной сети топологии Mask-R-CNN и её программной реализации Detectron2 (<a href="https://github.com/facebookresearch/detectron2">*</a>).
+        <p>
+            Приложение базируется на нейронной сети топологии Mask-R-CNN и её программной реализации Detectron2 (<a href="https://github.com/facebookresearch/detectron2">*</a>).
             Также дополнительно используется самостоятельно улучшенная программная реализация трекера SORT (<a href="https://github.com/AlexandrGrents/sort">*</a>).
-            <br>По данной разработке были опубликованы следующие работы: <br>
-            <code>1. Grents A., Varkentin V., Goryaev N. Determining vehicle speed based on video using convolutional neural network //Transportation Research Procedia. – 2020. – Т. 50. – С. 192-200 (<a
-                    href="https://www.sciencedirect.com/science/article/pii/S2352146520307705?dgcid=rss_sd_all">*</a>).</code>
+            <br>
+            По данной разработке были опубликованы следующие работы:
+            <br>
+            <code>
+                1.Grents A., Varkentin V., Goryaev N. Determining vehicle speed
+                based on video using convolutional neural network //Transportation
+                Re-search Procedia. – 2020. – Т. 50. – С. 192-200. (Топ-50
+                SCOPUS) (<a href="https://www.sciencedirect.com/science/article/pii/S2352146520307705?dgcid=rss_sd_all">*</a>)
+                <br>
+                2.Grents A., Varkentin V., Fedorov A. Application for Recognition of
+                Road Transport Using TensorFlow //2020 International Conference
+                Quality Management, Transport and Information Security,
+                Information Technolo-gies (IT&QM&IS). – IEEE, 2020. – С. 214-
+                218. (Q4 SCOPUS) (<a href="https://www.sciencedirect.com/science/article/pii/S2352146520307705?dgcid=rss_sd_all">*</a>)
+            </code>
         </p>
     </section>
 

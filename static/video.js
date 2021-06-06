@@ -18,10 +18,12 @@ export function getFormData() {
     let outputFormat = $('input[name="outputParameters"]:checked').val();
     body.set("outputFormat", outputFormat);
 
-    body.set("bbox", $("#bbox").prop("checked"))
-    body.set("class", $("#class").prop("checked"))
-    body.set("position", $("#position").prop("checked"))
-    body.set("speed", $("#speed").prop("checked"))
+    body.set('out_file_settings', JSON.stringify({
+        bbox: $("#bbox").prop("checked"),
+        class: $("#class").prop("checked"),
+        position: $("#position").prop("checked"),
+        speed: $("#speed").prop("checked"),
+    }));
 
     return body;
 }

@@ -31,15 +31,16 @@ def create_detector():
 	return DefaultPredictor(cfg)
 
 
-def async_detect_on_video(time_code, video_path, detector, tracker, app):
+def async_detect_on_video(time_code, video_path, detector, tracker, app, out_file_settings, out_format_settings):
 	print('time code:', time_code)
 	print('pwd: ', os.getcwd())
 	mask_file = os.path.join(os.getcwd(), 'determining_vehicle_speed', 'mask.png')
 	coef_file = os.path.join(os.getcwd(), 'determining_vehicle_speed', 'coef.json')
 
-	mp4_path = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], str(time_code) + '.mp4')
-	webm_path = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], str(time_code) + '.webm')
-	json_path = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], str(time_code) + '.json')
+	need_video = out_format_settings == 'output-video' or out_format_settings == 'output-all'
+	need_json = out_format_settings == 'output-json' or out_format_settings == 'output-all'
+
+
 
 	# Создаём считыватель исходного видео
 	istream = cv2.VideoCapture(video_path)
@@ -51,11 +52,14 @@ def async_detect_on_video(time_code, video_path, detector, tracker, app):
 	frame_count = int(istream.get(cv2.CAP_PROP_FRAME_COUNT))
 
 	# Создаём писателя для результирующего видео
+	if need_video:
+		mp4_path = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], str(time_code) + '.mp4')
+		webm_path = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], str(time_code) + '.webm')
 
-	fourcc_mp4 = cv2.VideoWriter_fourcc(*'XVID')
-	fourcc_webm = cv2.VideoWriter_fourcc(*'VP80')
-	writer_mp4 = cv2.VideoWriter(mp4_path, fourcc_mp4, fps, (w, h), True)
-	writer_webm = cv2.VideoWriter(webm_path, fourcc_webm, fps, (w, h), True)
+		fourcc_mp4 = cv2.VideoWriter_fourcc(*'XVID')
+		fourcc_webm = cv2.VideoWriter_fourcc(*'VP80')
+		writer_mp4 = cv2.VideoWriter(mp4_path, fourcc_mp4, fps, (w, h), True)
+		writer_webm = cv2.VideoWriter(webm_path, fourcc_webm, fps, (w, h), True)
 
 	# Создаём экземпляр класса Masker для выделения проезжей части на каждом кадре
 	masker = Masker(mask_file, size=(w, h))
@@ -75,24 +79,41 @@ def async_detect_on_video(time_code, video_path, detector, tracker, app):
 		masked_frame = masker.apply(frame)
 
 		# Распознаём объекты на кадре
-		detections = detect_on_frame(masked_frame, detector, tracker, speedometer)
+		detections = detect_on_frame(masked_frame, detector, tracker, speedometer, out_file_settings)
 
 		# Добавляем кадр с разметкой к результирующему видео
-		out_frame = drow_on_frame(frame, detections, CLASS_NAMES)
-		writer_mp4.write(out_frame)
-		writer_webm.write(out_frame)
+		if need_video:
+			out_frame = drow_on_frame(frame, detections, CLASS_NAMES)
+			writer_mp4.write(out_frame)
+			writer_webm.write(out_frame)
+
+		detections.pop('for_draw', None)
+
 		detections['frame_id'] = frame_id
 		detections_on_video.append(detections)
 		set_process(time_code, status='run', app=app, currentFrame=frame_id)
 
 	# Сохраняем видео с результатом
-	writer_mp4.release()
-	writer_webm.release()
-	with open(json_path, 'w') as f:
-		json.dump(detections_on_video, f)
+	if need_video:
+		writer_mp4.release()
+		writer_webm.release()
+
+	if need_json:
+		json_path = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], str(time_code) + '.json')
+		with open(json_path, 'w') as f:
+			json.dump(detections_on_video, f)
 
 	print('end process: ', time_code)
-	set_process(time_code, status='end', app=app, mp4=str(time_code) + '.mp4', webm=str(time_code) + '.webm', json=str(time_code) + '.json')
+
+	process_settings = dict(status='end', app=app)
+	if need_video:
+		process_settings['webm'] = str(time_code) + '.webm'
+		process_settings['mp4'] = str(time_code) + '.mp4'
+
+	if need_json:
+		process_settings['json'] = str(time_code) + '.json'
+
+	set_process(time_code, **process_settings)
 
 	return detections_on_video
 

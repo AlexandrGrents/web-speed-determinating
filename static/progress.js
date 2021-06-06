@@ -1,12 +1,19 @@
-export class ProgressManager {
-    constructor (processId) {
-        this._processId = processId
+import {ResultManager} from "./result.js";
 
+export class ProgressManager {
+    constructor () {
         this._progressHtml = $("#detectionProgressbar");
         this._progressText = $("#progress-text");
+
+        this._resultManager = new ResultManager();
+    }
+
+    init (processId) {
+        this._processId = processId
     }
 
     start () {
+        document.cookie = `process_id=${this._processId}`
         $("#detectionProccess").show();
         $.ajax({
             url: globalThis.progressLink + this._processId,
@@ -43,9 +50,11 @@ export class ProgressManager {
     stop (data) {
         $("#result").show();
         this._progressHtml.hide();
-        $("#result-video").attr('src', `./file/${data.webm}`)
         console.log('stop', data)
         $("#detectionProccess").hide();
+        document.cookie = `process_id=0`
+
+        this._resultManager.init(data);
     }
 
     /**

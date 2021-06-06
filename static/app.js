@@ -1,5 +1,3 @@
-import {ProgressManager} from "./progress.js";
-
 import {
     getFormData,
     showUploadImage,
@@ -43,7 +41,8 @@ sendVideoForm.submit(function(e){
         contentType: false,
         success: function(data){
             sendVideoForm.hide();
-            globalThis.progressManager = new ProgressManager(data.id);
+
+            progressManager.init(data.id);
             progressManager.start();
         }
     });
@@ -52,3 +51,10 @@ sendVideoForm.submit(function(e){
 });
 
 update();
+
+const procId = cookieArray.find(([key, value]) => key === 'process_id' && value != 0)
+
+if (procId) {
+    progressManager.init(procId);
+    progressManager.start();
+}
