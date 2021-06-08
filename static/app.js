@@ -51,10 +51,3 @@ sendVideoForm.submit(function(e){
 });
 
 update();
-
-const procId = cookieArray.find(([key, value]) => key === 'process_id' && value != 0)
-
-if (procId) {
-    progressManager.init(procId);
-    progressManager.start();
-}

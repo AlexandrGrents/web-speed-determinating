@@ -13,7 +13,10 @@ export class ProgressManager {
     }
 
     start () {
-        document.cookie = `process_id=${this._processId}`
+        this.updateHtml({
+            currentFrame: 0,
+            frameCount: 1,
+        });
         $("#detectionProccess").show();
         $.ajax({
             url: globalThis.progressLink + this._processId,
@@ -50,6 +53,7 @@ export class ProgressManager {
     stop (data) {
         $("#result").show();
         this._progressHtml.hide();
+        this._progressText.hide();
         console.log('stop', data)
         $("#detectionProccess").hide();
         document.cookie = `process_id=0`

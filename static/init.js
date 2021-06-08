@@ -2,7 +2,9 @@ import {ProgressManager} from "./progress.js";
 
 
 export function init () {
-    globalThis.serverHost = location.href;
+    globalThis.serverHost = location.href.slice(-1) === '/'
+        ? location.href.slice(0, -1)
+        : location.href;
     globalThis.serverLink = globalThis.serverHost + "/detect"
     globalThis.progressLink = globalThis.serverHost + "/result/"
 
@@ -13,8 +15,6 @@ export function init () {
     globalThis.resultSection = $("#result");
 
     globalThis.progressManager = new ProgressManager();
-
-    globalThis.cookieArray = document.cookie.split(';').map(elem => elem.split('='));
 }
 
 export function update () {

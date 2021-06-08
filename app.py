@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from threading import Thread
+import json
 
 from flask import Flask, render_template, jsonify, request, url_for, send_from_directory
 from flask_migrate import Migrate
@@ -56,7 +57,13 @@ def video_detect():
 		return '', 400
 
 	out_file_settings = request.form.get('out_file_settings')
+	if not (out_file_settings is None):
+		out_file_settings = json.loads(out_file_settings)
 	out_format_settings = request.form.get('out_format_settings')
+
+	print('out_format_settings', out_file_settings)
+	print(type(out_file_settings))
+	print('out_file_settings', out_file_settings['bbox'])
 
 	detect_processes[time_code] = {'status': 'start'}
 	tracker = Sort(max_age=60)

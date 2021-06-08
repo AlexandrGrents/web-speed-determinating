@@ -37,8 +37,8 @@ def async_detect_on_video(time_code, video_path, detector, tracker, app, out_fil
 	mask_file = os.path.join(os.getcwd(), 'determining_vehicle_speed', 'mask.png')
 	coef_file = os.path.join(os.getcwd(), 'determining_vehicle_speed', 'coef.json')
 
-	need_video = out_format_settings == 'output-video' or out_format_settings == 'output-all'
-	need_json = out_format_settings == 'output-json' or out_format_settings == 'output-all'
+	need_video = out_format_settings == 'video' or out_format_settings == 'all'
+	need_json = out_format_settings == 'json' or out_format_settings == 'all'
 
 
 

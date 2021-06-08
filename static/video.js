@@ -16,7 +16,7 @@ export function getFormData() {
 
 
     let outputFormat = $('input[name="outputParameters"]:checked').val();
-    body.set("outputFormat", outputFormat);
+    body.set("out_format_settings", outputFormat);
 
     body.set('out_file_settings', JSON.stringify({
         bbox: $("#bbox").prop("checked"),
