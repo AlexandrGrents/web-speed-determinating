@@ -12,6 +12,8 @@ git submodile update
 
 Для запуска c docker требуется выполнить `docker-compose up --build`
 
+![detect example](https://github.com/AlexandrGrents/web-speed-determination/tree/main/filex/example.gif)
+
 ### Информация о деталях проекта: 
 
 [Сервер](https://github.com/AlexandrGrents/web-speed-determinating)
