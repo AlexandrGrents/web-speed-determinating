@@ -67,6 +67,9 @@ export class ProgressManager {
      * @param data.frameCount
      */
     updateHtml (data) {
+        if (!data.currentFrame) data.currentFrame = 0;
+        if (!data.frameCount) data.frameCount = 1;
+
         const p = Math.floor(100 * data.currentFrame / data.frameCount);
         this._progressHtml.css("width", p + '%');
         this._progressHtml.text(p + '%');

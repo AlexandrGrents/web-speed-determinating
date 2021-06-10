@@ -13,8 +13,7 @@ from determining_vehicle_speed.utils.masker import Masker
 from determining_vehicle_speed.speedometer import Speedometer
 from models import get_process, set_process
 
-
-CLASS_NAMES = ['car', 'minibus', 'trolleybus', 'tram', 'truck', 'bus', 'middle_bus', 'ambulance', 'fire_truck', 'middle_truck', 'tractor', 'uncategorized', 'van', 'person']
+CLASS_NAMES = ['car', 'bus', 'track']
 
 
 def create_detector():

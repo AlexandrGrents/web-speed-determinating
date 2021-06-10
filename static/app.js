@@ -10,6 +10,7 @@ import {
 import {
     ROADS,
     VIDEO_FILES,
+    VIDEO_TYPES,
 } from "./enums.js";
 
 init();
@@ -22,9 +23,12 @@ videoSelect.change(function() {
         $("#video-form").show();
         setVideoFileUrl();
     }
-    else $("#video-form").hide();
-
-    if (this.value === ROADS.KOMPOL) setVideoFileUrl(VIDEO_FILES.KOMPOL, "video/mp4")
+    else {
+        $("#video-form").hide();
+        if (Object.values(ROADS).includes(this.value)) {
+            setVideoFileUrl(VIDEO_FILES[this.value], VIDEO_TYPES[this.value])
+        }
+    }
 });
 
 sendVideoForm.submit(function(e){
@@ -43,6 +47,7 @@ sendVideoForm.submit(function(e){
             sendVideoForm.hide();
 
             progressManager.init(data.id);
+            $("#send-title").hide();
             progressManager.start();
         }
     });

@@ -37,7 +37,11 @@ if os.environ.get('CROSS_ORIGIN'):
 detector = create_detector()
 
 
-videos = {'kompol-11s': os.path.join(os.getcwd(), 'static', 'input.mp4')}
+videos = {
+	'kompol-11s': os.path.join(os.getcwd(), 'static', 'input.mp4'),
+	'kompol-11s-10fps': os.path.join(os.getcwd(), 'static', 'input10fps.mp4'),
+	'kompol-2min-5fps': os.path.join(os.getcwd(), 'static', 'new_input5fps.mp4'),
+}
 detect_processes = {1:{'status': 'run', 'frameCount':220, 'currentFrame':100}, 2:{'status': 'end', 'webmFileName':'20201213003800.webm', 'mp4FileName': '20201213003800.mp4', 'jsonFileName': '20201213003800.json'}}
 
 
@@ -49,11 +53,11 @@ def video_detect():
 	if video == 'custom':
 		video_file = request.files['video-file']
 		file_format = os.path.splitext(video_file.filename)[1]
-		video_path = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], time_code + file_format)
+		video_path = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], str(time_code) + file_format)
 		video_file.save(video_path)
 	else:
-		video_file = videos.get(video)
-	if video_file is None:
+		video_path = videos.get(video)
+	if video_path is None:
 		return '', 400
 
 	out_file_settings = request.form.get('out_file_settings')
@@ -61,17 +65,13 @@ def video_detect():
 		out_file_settings = json.loads(out_file_settings)
 	out_format_settings = request.form.get('out_format_settings')
 
-	print('out_format_settings', out_file_settings)
-	print(type(out_file_settings))
-	print('out_file_settings', out_file_settings['bbox'])
-
 	detect_processes[time_code] = {'status': 'start'}
 	tracker = Sort(max_age=60)
 	KalmanBoxTracker.count = 0
 
 	process = set_process(time_code, status='start', app=app)
 
-	Thread(target=async_detect_on_video, args=(time_code, video_file, detector, tracker, app, out_file_settings, out_format_settings)).start()
+	Thread(target=async_detect_on_video, args=(time_code, video_path, detector, tracker, app, out_file_settings, out_format_settings)).start()
 
 	return jsonify(process)
 

@@ -10,7 +10,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
     <div class="container">
-        <a class="navbar-brand" href="#">Распознаватель скорости по видео</a>
+        <a class="navbar-brand" href="/">Распознаватель скорости по видео</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -18,7 +18,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="https://github.com/AlexandrGrents/determining-vehicle-speed">Github</a>
+        <a class="nav-link" href="https://github.com/AlexandrGrents/web-speed-determination">Github</a>
       </li>
     </ul>
 
@@ -28,13 +28,15 @@
 </nav>
 
 <div class="container bg-light flex-grow-1" >
-        <div class="row" style="background-color:#dedede"><div class="col-12"><h3>Отправить видео на распознавание</h3></div></div>
+        <div class="row" id="send-title" style="background-color:#dedede"><div class="col-12"><h3>Отправить видео на распознавание</h3></div></div>
         <form id="sendVideoForm" action="" class="row" style="background-color:#dedede">
 
                 <div class="col-8">
                     <b>Video</b>
                     <select class="form-control" id="video-select">
-                        <option value="kompol-11s">Демонстрационное видео: Ост. Поликлиника (11 с.)</option>
+                        <option value="kompol-11s">Демонстрационное видео: Ост. Поликлиника (11 с, 30 fps)</option>
+                        <option value="kompol-11s-10fps">Демонстрационное видео: Ост. Поликлиника (11 с, 10 fps)</option>
+                        <option value="kompol-2min-5fps">Демонстрационное видео: Ост. Поликлиника с остравком безопасности(2 мин, 5 fps)</option>
                         <option value="custom">Другое видео</option>
                     </select>
                     <div class="form-group" id="video-form">
@@ -75,12 +77,12 @@
                     </div>
 
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="position">
+                      <input class="form-check-input" type="checkbox" value="" id="position" checked>
                       <label class="form-check-label" for="position">Позиция</label>
                     </div>
 
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="class">
+                      <input class="form-check-input" type="checkbox" value="" id="class" checked>
                       <label class="form-check-label" for="class">Класс</label>
                     </div>
                     <hr>

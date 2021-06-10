@@ -14,13 +14,7 @@ git submodile update
 
 ![detect example](https://github.com/AlexandrGrents/web-speed-determination/tree/main/filex/example.gif)
 
-### Информация о деталях проекта: 
-
-[Сервер](https://github.com/AlexandrGrents/web-speed-determinating)
-
-[Клиент](https://github.com/AlexandrGrents/interface-speed-determinationg)
-
-[Ссылка для работы](https://alexandrgrents.github.io/interface-speed-determinationg/)
+### Информация о деталях проекта:
 
 [Приложение для распознавания скорости по видео](https://github.com/AlexandrGrents/determining_vehicle_speed)
 
